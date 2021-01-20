@@ -43,12 +43,12 @@ services:
       - "./storage/mongodb_data:/data/db"
       - "./resources/mongo-initdb.d:/docker-entrypoint-initdb.d"
 
-#  solr:
-#    image: solr:latest
-#    ports:
-#     - "8983:8983"
-#    volumes:
-#      - ./storage/solr:/var/solr
+  solr:
+    image: solr:latest
+    ports:
+     - "8983:8983"
+    volumes:
+      - ./storage/solr:/var/solr
 
 #  elasticsearch:
 #    restart: always

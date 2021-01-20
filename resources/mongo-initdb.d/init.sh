@@ -5,41 +5,41 @@ _js_escape() {
 }
 
 
-if [ "tokoin" ] && [ "tokoin" ]; then
-  myAuthDatabase="tokoin"
+mongo -- "$MONGO_INITDB_DATABASE" <<EOF
+    var rootUser = '$MONGO_INITDB_ROOT_USERNAME';
+    var rootPassword = '$MONGO_INITDB_ROOT_PASSWORD';
+    var admin = db.getSiblingDB('admin');
+    admin.auth(rootUser, rootPassword);
 
-  "${mongo[@]}" "admin" <<-EOJS
     use tokoin;
+    db.dropUser("$MONGO_INITDB_USERNAME");
     db.createUser({
-      user: $(_js_escape "tokoin"),
-      pwd: $(_js_escape "1234"),
-      roles: [ { role: 'readWrite', db: $(_js_escape "tokoin") } ]	
+	user: "$MONGO_INITDB_USERNAME", 
+	pwd: "$MONGO_INITDB_ROOT_PASSWORD",
+	roles: [
+	    { role: "userAdminAnyDatabase", db: "admin" },
+	    { role: "dbOwner", db: "tokoin" },
+	]
     });
-EOJS
-fi
 
-if [ "tokoin" ] && [ "tokoin" ]; then
-  myAuthDatabase="user_service"
-
-  "${mongo[@]}" "admin" <<-EOJS
     use user_service;
+    db.dropUser("$MONGO_INITDB_USERNAME");
     db.createUser({
-      user: $(_js_escape "tokoin"),
-      pwd: $(_js_escape "1234"),
-      roles: [ { role: 'readWrite', db: $(_js_escape "user_service") } ]	
+	user: "$MONGO_INITDB_USERNAME", 
+	pwd: "$MONGO_INITDB_ROOT_PASSWORD",
+	roles: [
+	    { role: "dbOwner", db: "user_service" },
+	]
     });
-EOJS
-fi
 
-if [ "tokoin" ] && [ "tokoin" ]; then
-  myAuthDatabase="user_service_test"
-
-  "${mongo[@]}" "admin" <<-EOJS
-    use user_service_test;
+    use user_service_production;
+    db.dropUser("$MONGO_INITDB_USERNAME");
     db.createUser({
-      user: $(_js_escape "tokoin"),
-      pwd: $(_js_escape "1234"),
-      roles: [ { role: 'readWrite', db: $(_js_escape "user_service_test") } ]	
+	user: "$MONGO_INITDB_USERNAME", 
+	pwd: "$MONGO_INITDB_ROOT_PASSWORD",
+	roles: [
+	    { role: "dbOwner", db: "user_service_production" },
+	]
     });
-EOJS
-fi
+EOF
+
