@@ -1,0 +1,66 @@
+version: "3.8"
+services:
+  redis:
+    restart: always
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./storage/redis_data:/data"
+
+  mysql:
+    restart: always
+    image: "mysql:latest"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+
+  rabbitmq:
+    restart: always
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 6085e2412b6fa88647466c6a81c0cea0
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: 1234
+    volumes:
+      - "./storage/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached"
+
+  mongodb:
+    restart: always
+    image: "mongo:bionic"
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: tokoin
+      MONGO_INITDB_USERNAME: tokoin
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    volumes:
+      - "./storage/mongodb_data:/data/db"
+      - "./resources/mongo-initdb.d:/docker-entrypoint-initdb.d"
+
+#  solr:
+#    image: solr:latest
+#    ports:
+#     - "8983:8983"
+#    volumes:
+#      - ./storage/solr:/var/solr
+
+#  elasticsearch:
+#    restart: always
+#    image: "elasticsearch:6.8.13"
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    volumes:
+#      - "./storage/elasticsearch:/usr/share/elasticsearch/data"
+#    networks:
+#      - elastic
+
+#networks:
+#  elastic:
+#    driver: bridge

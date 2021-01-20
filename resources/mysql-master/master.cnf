@@ -1,0 +1,22 @@
+[mysqld]
+server-id=1
+log-bin=mysql-bin
+log-slave-updates=1
+datadir=/var/lib/mysql/
+
+innodb_flush_log_at_trx_commit = 2
+innodb_flush_method = O_DIRECT
+innodb_buffer_pool_size = 1G
+innodb_log_file_size = 128M
+
+skip-host-cache
+skip-name-resolve
+
+sql-mode="ERROR_FOR_DIVISION_BY_ZERO,NO_ZERO_DATE,NO_ZERO_IN_DATE,NO_AUTO_CREATE_USER"
+
+general_log = on
+general_log_file=/var/lib/mysql/sqls.log
+
+#replicate-wild-do-table=tokoin.%
+#replicate-do-db = tokoin
+#lower_case_table_names = 1
