@@ -1,7 +1,7 @@
-#Development environment
+# Development environment
 Development environment setup by docker compose
 
-###Contains docker images:
+### Contains docker images:
 - `RabbitMQ`
 - `MongoDB`
 - `Mysql`
