@@ -1,0 +1,5 @@
+.storage/
+storage/
+
+kafka/kafka/broker1
+kafka/kafka/zookeeper
