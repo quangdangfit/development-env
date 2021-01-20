@@ -48,7 +48,8 @@ services:
     ports:
      - "8983:8983"
     volumes:
-      - ./storage/solr:/var/solr
+      - "./storage/solr:/var/solr"
+      - "./resources/solr/security.json:/var/solr/data/security.json"
 
 #  elasticsearch:
 #    restart: always

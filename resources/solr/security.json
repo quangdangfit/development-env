@@ -1,13 +1,57 @@
 {
-   "authentication":{
-      "class":"solr.BasicAuthPlugin",
-      "credentials":{"solr":"6/833mPMjtmKyZijSOFozqoM7Knzm12ZdKxfRKQMAS4= 05NJLfOxzNjc4+y2SdMeGlIsfBf08bf2L7Dwg7qhAL8="},
-      "blockUnknown": true
-   },
-   "authorization":{
-      "class":"solr.RuleBasedAuthorizationPlugin",
-      "user-role":{"solr":"admin"},
-      "permissions":[{"name":"all",
-                     "role":"admin"}]
-   }
+    "authentication": {
+        "blockUnknown": true,
+        "class": "solr.BasicAuthPlugin",
+        "credentials": {
+            "solr": "eW2UbTQR2kPHiX6hOSZamZhP7vxuBAMJ0GbPhcXCh2k= 9sGWlMJgkZURk0qAUzy7/KtPt7D+IqRMh7gFwiWsPEY=",
+            "solrread": "Ohh3TLHQhv6bk0aswwz0i3KoMSlE0M6c2RkJ3NoemdM= 12UgZpta1GTP78AB5gib3Bte1sMygoF2673LA7s9Gs4="
+        },
+        "realm": "My Solr users",
+        "forwardCredentials": false,
+        "": {
+            "v": 0
+        }
+    },
+    "authorization": {
+        "class": "solr.RuleBasedAuthorizationPlugin",
+        "permissions": [
+            {
+                "name": "read",
+                "role": "*"
+            },
+            {
+                "name": "schema-read",
+                "role": "*"
+            },
+            {
+                "name": "config-read",
+                "role": "*"
+            },
+            {
+                "name": "collection-admin-read",
+                "role": "*"
+            },
+            {
+                "name": "metrics-read",
+                "role": "*"
+            },
+            {
+                "name": "core-admin-read",
+                "role": "*"
+            },
+            {
+                "name": "collection-admin-read",
+                "path": "/select",
+                "role": "dev"
+            },
+            {
+                "name": "all",
+                "role": "admin"
+            }
+        ],
+        "user-role": {
+            "solr": "admin",
+            "solrread": "dev"
+        }
+    }
 }
