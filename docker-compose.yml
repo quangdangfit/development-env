@@ -15,6 +15,9 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - "./storage/mysql_data/data:/var/lib/mysql"
+      - "./resources/mysql-initdb.d:/docker-entrypoint-initdb.d"
 
   rabbitmq:
     restart: always
@@ -27,7 +30,8 @@ services:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: 1234
     volumes:
-      - "./storage/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached"
+      - "./storage/rabbitmq:/var/lib/rabbitmq"
+      - "./resources/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json"
 
   mongodb:
     restart: always
@@ -44,6 +48,7 @@ services:
       - "./resources/mongo-initdb.d:/docker-entrypoint-initdb.d"
 
   solr:
+    restart: always
     image: solr:latest
     ports:
      - "8983:8983"
